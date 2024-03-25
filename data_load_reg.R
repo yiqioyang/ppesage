@@ -31,21 +31,3 @@ inp_b = data.frame(inp_b)
 out_b = data.frame(out_b)
 colnames(inp_b) = inp_nm
 colnames(out_b) = out_nm
-
-
-
-#######
-inp_a_reg = inp_a
-inp_b_reg = inp_b
-
-out_a_reg = out_a
-out_b_reg = out_b
-
-inp_nm_reg = inp_nm
-out_nm_reg = out_nm
-
-#rm(list = setdiff(ls(), c("inp_a_reg", "inp_b_reg", "out_a_reg", "out_b_reg", "inp_nm_reg", "out_nm_reg",
-#                          "inp_a_bia", "inp_b_bia", "out_a_bia", "out_b_bia", "inp_nm_bia", "out_nm_bia")))
-
-
-
