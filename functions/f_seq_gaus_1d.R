@@ -1,73 +1,54 @@
-seq_gaus_1d <- function(x = x, y = y,  range, nugget, iteration){
-  ncol = ncol(x)
+#x = dftrn[,1:n_inp]
+#y = dftrn$y 
+#range = 0.6
+#nugget = 4
+#iteration = 10
+
+#detectCores()
+
+seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration){
+  ncol_x = ncol(x)
   pre_y = y
-  
   temp_res = c()
-  
   sel_ind = c()
-  par(mfrow = c(4,4))
+  par(mfrow = c(2,2))
   
   for(i in 1:iteration){
-    for(j in 1:ncol){
-      temp_res[j] = sd(auto_gaus(x[,j], y = pre_y, range = range, nugget = nugget)[[1]]$r)
+    
+    temp_res = apply(data.frame(dims = 1:ncol_x), MARGIN = 1, FUN = auto_gaus_sel_ind, y = pre_y, range = range, nugget = nugget, x = x)
+    temp_ind = which(temp_res == min(temp_res))[1]
+    print(inp_nm[temp_ind])
+    if(i == 1 | i %% 5 == 0 | i == iteration){
+      plot(temp_res, ylim = c(min(temp_res - 0.05),1), xlab = i)
     }
-    temp_ind = which(temp_res == min(temp_res))
-    plot(temp_res)
-    sel_ind[i] = temp_ind[1]   #xxx
-    pre_y = auto_gaus(x[,temp_ind[1]], y = pre_y, range = range, nugget = nugget)[[1]]$r
+    sel_ind[i] = temp_ind   #xxx
+    temp_pred_obj = rgasp(design = x[,temp_ind], response = pre_y, nugget = nugget, range.par = range)
+    pre_y = pre_y - predict(temp_pred_obj, cbind(x[,temp_ind]))$mean 
   }
   output = cbind(sel_ind, rep(NA, length(sel_ind)), rep(NA, length(sel_ind)), 
                  rep(range, length(sel_ind)), rep(NA, length(sel_ind)), rep(NA, length(sel_ind)),
                  rep(nugget, length(sel_ind)))
-  
+  colnames(output) = NULL
   return(list(output, pre_y))
 }
 
-#x = dftrn[,1:45]
-#y = dftrn$y
-#ranges = c(0.4, 0.4, 0.4)
-#nugget = 0.9
-#iteration = 2
-#sub_iter = 3
 
-seq_gaus_2d <- function(x = x, y = y,  ranges, nugget, iteration, sub_iter){
-  xdim = ncol(x)
-  y_iter = y
+seq_gaus_1d_b <- function(x = x, y = y,  range, nugget, iteration){
+  ncol_x = ncol(x)
+  pre_y = y
   temp_res = c()
-  
   sel_ind = c()
-  
-  out_meta = matrix(ncol = 7, nrow = 1)
-
-  for(i in 1:iteration){
-    for(j in 1:xdim){
-      temp_res[j] = sd(auto_gaus(x[,j], y = y_iter, range = ranges[1], nugget = nugget)[[1]]$r)
-    }
-    temp_ind = which(temp_res == min(temp_res))
-    plot(temp_res)
-    sel_ind[i] = temp_ind
     
-    res_1d = auto_gaus(x[,temp_ind], y = y_iter, range = ranges[1], nugget = nugget)[[1]]$r
-    
-    print("Checking 2-D")
-    for(k in 1:sub_iter){
-      temp_res_2d = fixed_compare(x = x, y = y_iter, ind_sel = temp_ind, range2d = ranges[1:2], nugget = nugget)
-      if(temp_res_2d[[3]] == "no"){
-        out_meta = rbind(out_meta, c(temp_ind, NA, NA, ranges[1], NA, NA, nugget))
-        y_iter = res_1d
-        break
-      }else{
-        out_meta = rbind(out_meta, temp_res_2d[[1]])
-        y_iter = temp_res_2d[[2]]
-      }
-    }
-  }
+  temp_res = apply(data.frame(dims = 1:ncol_x), MARGIN = 1, FUN = auto_gaus_sel_ind, y = pre_y, range = range, nugget = nugget, x = x)
+  sorted_indices = order(temp_res)[1:iteration]
   
-  out_meta = out_meta[-1,]
+  plot(temp_res, ylim = c(min(temp_res)-0.15, 1))
+  abline(a = temp_res[sorted_indices[iteration]], b = 0)
   
-  return(list(out_meta, y_iter))
+  output = cbind(sorted_indices, rep(NA, iteration), rep(NA, iteration), 
+                rep(range, iteration), rep(NA, iteration), rep(NA, iteration),
+                rep(nugget, iteration))
+  colnames(output) = NULL
+  return(output)
 }
 
-#par(mfrows = c(3,1))
-#comb_meta = seq_gaus_2d(x = dftrn[,1:45], dftrn$y, ranges = c(0.4, 0.4), nugget = 0.9, iteration = 25)[[1]]
-#fixed_compare(x = dftrn[,1:45],y = comb_meta, ind_sel = 34, range2d = c(0.4, 0.4), nugget = 0.9)

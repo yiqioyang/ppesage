@@ -1,21 +1,13 @@
-
-#x = dftrn[,1:15]
-#y = dftrn$y
-#range3d = c(0.4, 0.4, 0.4)
-#nugget = 4
-#var_nm = inp_nm[1:15]
-
 gaus_3d <- function(x, y, range3d, nugget, var_nm, n_sel){
   
-  x_dim = ncol(x)
   
-  auto_cor_mat = data.frame(matrix(nrow = (x_dim-1) * (x_dim-2) * (x_dim-3)/6, ncol = 4))
-  single_var_sd = c()
+  ncol_x = ncol(x)
   
-  for(i in 1:x_dim){
-    one_var_res = auto_gaus(x[,i], y = y, nugget = nugget, range = range3d[1])[[1]]$r
-    single_var_sd[i] = sd(one_var_res)
-  }
+  one_var_res = apply(data.frame(dims = 1:ncol_x), MARGIN = 1, 
+                      FUN = auto_gaus_sel_ind, y = y, range = range[1], nugget = nugget, x = x)
+  
+  
+  
   
   row_num = 1
   #################### 2D
