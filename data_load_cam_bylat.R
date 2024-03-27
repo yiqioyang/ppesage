@@ -21,7 +21,7 @@ para = data.frame(para_nc)
 colnames(para) = para_nm
 out = data.frame(out_nc)
 colnames(out) = out_nm
-
+inp = para
 ####
 nc_data = nc_open("./data/raw/selected_cam6_fields.1yearave.nc")
 #nc_data2 = nc_open("./data/raw/selected_cam6_fields.3yearave.nc")

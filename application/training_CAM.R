@@ -4,18 +4,16 @@ library(parallel)
 fun_names = list.files("~/Documents/code_proj/simp_add_gp/functions/" ,full.names = TRUE)
 apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
 
-###########
-out_ind = 1
-inp = to_hypercube(rbind(inp_a, inp_b))
-out = rbind(out_a, out_b)
-df = cbind(inp, y = to_gau01(out[, out_ind]))
+##########
+y_lat = ncvar_get(nc_data, 'LW_CRE') #########***
+lats = ncvar_get(nc_data, "lat")
+y_lat_ave = y_lat[,c(-1,-2)]
 
 n_inp = ncol(inp)
-
 n_ensemble = nrow(inp)
-n_out = ncol(out)
 
-n_trn = 611
+df = cbind(to_hypercube(inp), y = to_gau01(y_lat_ave[45,]))
+n_trn = 210
 ########################
 trn_ind = sample(1:n_ensemble, n_trn)
 
@@ -53,7 +51,6 @@ plot(apply(dftrn_val$y - y_trn_val[[3]], MARGIN = 2, sd)/sd(dftrn_val$y),
 abline(v = (1:(nrow(comb_meta)/5))*5 , col = "gray", lty = 2)
 abline(v = (1:(nrow(comb_meta)/10))*10 , col = "gray")
 
-
 comb_meta_update = comb_meta[c(1:60),]
 ################################
 y_pred_origin = apply_emu_val(dftrn_comb[,1:n_inp], dftrn_comb$y, meta_data = comb_meta, xtst = dftst[,1:n_inp])
@@ -73,22 +70,6 @@ abline(v = (1:(nrow(comb_meta)/10))*10 , col = "gray")
 sd(y_pred_origin[[1]] - dftst$y)/sd(dftst$y)
 sd(y_pred_update[[1]] - dftst$y)/sd(dftst$y)
 ################################
-#write.table(comb_meta, paste("~/Documents/manu/add_gp_giss_new/default_test_trn_611/index_set1/meta_", var_ind, ".csv", sep = ""), 
-#            sep = ",", col.names =FALSE, row.names=FALSE)
-#vald_comp = data.frame(cbind(gcm = dftst$y, emu = y_tst[[1]]))
-#emu_step = y_tst[[2]]
-
-
-#write.table(vald_comp, paste("~/Documents/manu/add_gp_giss_new/default_test_trn_611/index_set1/comp_var", var_ind, ".csv", sep = ""), 
-#            sep = ",", col.names =TRUE, row.names=FALSE)
-
-#write.table(emu_step, paste("~/Documents/manu/add_gp_giss_new/default_test_trn_611/index_set1/step_var", var_ind, ".csv", sep = ""), 
-#            sep = ",", col.names =FALSE, row.names=FALSE)
-
-#write.table(iter_res_test, paste("~/Documents/manu/add_gp_giss_new/default_test_trn_611/index_set1/validation_rel_decrease", var_ind, ".csv", sep = ""), 
-#            sep = ",", col.names =FALSE, row.names=FALSE)
-
-
 
 
 
