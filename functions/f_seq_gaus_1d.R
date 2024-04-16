@@ -6,7 +6,7 @@
 
 #detectCores()
 
-seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration){
+seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration, inp_nm = colnames(x)){
   ncol_x = ncol(x)
   pre_y = y
   temp_res = c()
