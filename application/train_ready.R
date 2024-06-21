@@ -5,14 +5,12 @@ library(parallel)
 fun_names = list.files("~/Documents/code_proj/simp_add_gp/functions/" ,full.names = TRUE)
 apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
 
-
-
-
 ###
 
-
+para = rbind(inp_a)
+y_raw = rbind(out_a)[,10]
 ###########################
-df = cbind(to_hypercube(inp), y = to_gau01(y_ave))
+df = cbind(to_hypercube(para), y = to_gau01(y_raw))
 ##############################
 
 n_ens = nrow(df)
@@ -45,7 +43,7 @@ par(mfrow = c(1,2))
 val_pred = apply_emu_val(trn[,-n_col], trn$y, meta_data = comb_meta, xtst = val[,-n_col])
 plot_val(pred_adding = val_pred, ytrue = val$y)
 
-comb_meta_update = comb_meta[c(1:10, 11:30),]
+comb_meta_update = comb_meta[c(1:10, 11:50),]
 ################################
 tst_pred_long = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta, xtst = tst[,-n_col])
 tst_pred_short = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta_update, xtst = tst[,-n_col])
