@@ -17,7 +17,7 @@ seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration, var_nm = coln
     
     temp_res = apply(data.frame(dims = 1:ncol_x), MARGIN = 1, FUN = auto_gaus_sel_ind, y = pre_y, range = range, nugget = nugget, x = x)
     temp_ind = which(temp_res == min(temp_res))[1]
-    print(inp_nm[temp_ind])
+    print(var_nm[temp_ind])
     if(i == 1 | i %% 5 == 0 | i == iteration){
       plot(temp_res, ylim = c(min(temp_res - 0.05),1), xlab = i)
     }
