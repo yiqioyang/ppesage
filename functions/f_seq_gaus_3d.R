@@ -1,4 +1,4 @@
-seq_gaus_3d <- function(x, y, range, nugget, var_nm, top_n){
+seq_gaus_3d <- function(x, y, range, nugget, var_nm = colnames(x), top_n){
   ncol_x = ncol(x)
   ind_pair = expand.grid(1:ncol_x, 1:ncol_x, 1:ncol_x)
   ind_pair = ind_pair[ind_pair[,1]>ind_pair[,2] & ind_pair[,2]>ind_pair[,3],]
@@ -28,6 +28,6 @@ seq_gaus_3d <- function(x, y, range, nugget, var_nm, top_n){
   
   colnames(output_meta) = NULL
   rownames(output_meta) = NULL
-  print(head(ind_pair_selected))
+  print(ind_pair_selected[1:30,])
   return(list(output_meta, ind_pair_selected, ind_pair))
 }
