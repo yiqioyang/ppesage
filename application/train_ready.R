@@ -1,16 +1,18 @@
 rm(list = ls())
 source("~/Documents/code_proj/simp_add_gp/lib_load_colors.R")
-source("~/Documents/code_proj/simp_add_gp/data_load_reg.R")
+source("~/Documents/code_proj/simp_add_gp/data_load_cam_bylat.R")
+
+#source("~/Documents/code_proj/simp_add_gp/data_load_reg.R")
 library(parallel)
 fun_names = list.files("~/Documents/code_proj/simp_add_gp/functions/" ,full.names = TRUE)
 apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
 
 ###
 
-para = rbind(inp_a)
-y_raw = rbind(out_a)[,10]
+#para = rbind(inp_a)
+#y_raw = rbind(out_a)[,10]
 ###########################
-df = cbind(to_hypercube(para), y = to_gau01(y_raw))
+df = cbind(to_hypercube(inp_a), y = to_gau01(out_a[,9]))
 ##############################
 
 n_ens = nrow(df)
@@ -28,26 +30,26 @@ trn_val = rbind(trn, val)
 
 
 ########################
-l1_info = seq_gaus_1d_a(x = trn[,-n_col], y = trn$y, range = 0.6, nugget = 4, iteration = 10)
+l1_info = seq_gaus_1d_a(x = trn[,-n_col], y = trn$y, range = 0.6, nugget = 4, iteration = 22)
 #########################
 l2_info = seq_gaus_2d(x = trn[,-n_col], y = l1_info[[2]], range = c(0.5, 0.5), nugget = 4, top_n = 20)
 l2_calc = apply_emu(x = trn[,-n_col], y = l1_info[[2]], meta_data = l2_info[[1]])
 #########################
-l3_info = seq_gaus_3d(x = trn[,-n_col], y = l2_calc[[2]], range = c(0.4, 0.4, 0.4), nugget = 4, top_n = 20)
+#l3_info = seq_gaus_3d(x = trn[,-n_col], y = l2_calc[[2]], range = c(0.4, 0.4, 0.4), nugget = 4, top_n = 20)
 
 comb_meta = rbind(l1_info[[1]], 
-                  as.matrix(l2_info[[1]]),
-                  as.matrix(l3_info[[1]]))
+                  as.matrix(l2_info[[1]]))
+                  #as.matrix(l3_info[[1]]))
 #########
 par(mfrow = c(1,2))
 val_pred = apply_emu_val(trn[,-n_col], trn$y, meta_data = comb_meta, xtst = val[,-n_col])
 plot_val(pred_adding = val_pred, ytrue = val$y)
 
-comb_meta_update = comb_meta[c(1:10, 11:50),]
+comb_meta_update = comb_meta[c(1:10, 21:30),]
 ################################
-tst_pred_long = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta, xtst = tst[,-n_col])
-tst_pred_short = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta_update, xtst = tst[,-n_col])
-plot_tst(tst_pred_long, tst_pred_short, ytrue = tst$y)
+tst_pred_short = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta, xtst = tst[,-n_col])
+tst_pred_tst = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta_update, xtst = tst[,-n_col])
+plot_tst(val_pred, y_val = val$y, tst_pred_short, tst_pred_tst,ytrue = tst$y)
 ################################
 
 
