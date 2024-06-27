@@ -15,6 +15,9 @@ library(gridExtra)
 library(scatterplot3d)
 library(plot3D)
 library(mgcv)
+library(parallel)
+
+
 
 myPallette <-
   c(rev(colorRampPalette(brewer.pal(9,"YlGnBu")[3:9])(11)),"khaki1",
@@ -47,4 +50,4 @@ random_colors = c("red", "navy","seagreen","pink", "gray", "khaki1",
 
 
 #####
-source("~/Documents/proj/emulator/iter_gaus_general_v2a/util/norm_in_out.R")
+
