@@ -35,7 +35,7 @@ comb_meta = rbind(l1_info[[1]],
                   as.matrix(l2_info[[1]]),
                   as.matrix(l3_info[[1]]))
 #########
-par(mfrow = c(1,2))
+par(mfrow = c(1,3))
 val_pred = apply_emu_val(trn[,-n_col], trn$y, meta_data = comb_meta, xtst = val[,-n_col])
 plot_val(pred_adding = val_pred, ytrue = val$y)
 
@@ -44,6 +44,8 @@ comb_meta_update = comb_meta[c(1:20, 23:50 ),]
 tst_pred_short = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta, xtst = tst[,-n_col])
 tst_pred_tst = apply_emu_val(trn_val[,-n_col], trn_val$y, meta_data = comb_meta_update, xtst = tst[,-n_col])
 plot_tst(val_pred, y_val = val$y, tst_pred_short, tst_pred_tst,ytrue = tst$y)
+plot(tst$y, tst_pred_tst[[1]], xlab = "Climate model output", ylab = "Emulator output")
+abline(a = 0, b = 1)
 ################################
 
 
