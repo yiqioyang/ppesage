@@ -22,7 +22,7 @@ seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration, var_nm = coln
       initial_res = temp_res
     }
     
-    print(var_nm[temp_ind])
+    print(temp_ind)
     if(i == 1 | i %% 10 == 1 ){
       plot(initial_res, ylim = c(0,1.1), xlab = "Para No", ylab = "Res at each iteration")
       abline(v = temp_ind, col = "black", lty = 2)

@@ -13,7 +13,7 @@ n_ens = nrow(df)
 n_col = ncol(df)
 n_par = n_col-1
 sample_ind = sample(1:n_ens)
-
+df = df[sample_ind,]
 trn_count = round(0.8 * 0.8 * n_ens)
 val_count = round(0.2 * 0.8 * n_ens)
 trn = df[1:trn_count, ]

@@ -45,7 +45,7 @@ seq_gaus_2d <- function(x, y, range, nugget, var_nm = colnames(x), top_n){
   
   
   print(gp)
-  print(ind_pair_selected[1:30,])
+  print(ind_pair_selected[1:10,])
   return(list(output_meta, ind_pair_selected, ind_pair))
 }
 
