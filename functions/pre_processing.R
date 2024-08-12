@@ -12,8 +12,8 @@ for(i in 1:n_y){
 inp = inp[sample_ind,]
 out = out[sample_ind,]
 
-trn_count = round(0.8 * 0.8 * n_ens)
-val_count = round(0.2 * 0.8 * n_ens)
+trn_count = round(trn_ratio * n_ens)
+val_count = round(val_ratio * n_ens)
 ###
 trn_ind = 1:trn_count
 val_ind = (trn_count + 1): (trn_count + 1 + val_count)

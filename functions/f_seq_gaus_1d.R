@@ -38,6 +38,7 @@ seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration, var_nm = coln
                  rep(range, length(sel_ind)), rep(NA, length(sel_ind)), rep(NA, length(sel_ind)),
                  rep(nugget, length(sel_ind)))
   colnames(output) = NULL
+  par(mfrow = c(1,1))
   return(list(output, pre_y))
 }
 
