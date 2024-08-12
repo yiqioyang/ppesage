@@ -1,46 +1,66 @@
-plot_val <- function(pred_adding, ytrue){
-  plot(apply(ytrue - pred_adding[[3]], MARGIN = 2, sd)/sd(ytrue), 
-       ylim = c(0, 1), xlab = "No of iteration", ylab = "Sd at each iteration", pch = 16, cex = 0.8)
+plot_val <- function(pred_adding, ytrue, comb_meta, title, threshold = 0.001){
+  
+  xlabel = paste(inp_nm[comb_meta[,1]],inp_nm[comb_meta[,2]],inp_nm[comb_meta[,3]], sep = " + ")
+  
+  to_plot = apply(ytrue - pred_adding[[3]], MARGIN = 2, sd)/sd(ytrue)
+  
+  par(mar=c(20, 4, 4, 2) + 0.1)
+  
+  plot(to_plot, 
+       ylim = c(0, 1), xlab = "", ylab = "Sd at each iteration", pch = 16, cex = 0.8, 
+       xaxt = "n", main = title, col = "gray")
+  axis(1, labels = FALSE)
+  text(x = 1:length(to_plot), y = par("usr")[3] - 0.05,
+       labels = xlabel, xpd = NA, srt = 270, cex = 0.6, adj = 0)
+  
+  
   abline(v = (1:(nrow(comb_meta)/5))*5 , col = "gray", lty = 2)
   abline(v = (1:(nrow(comb_meta)/10))*10 , col = "gray")
   
   rel_sd = sd(pred_adding[[1]] - ytrue)/sd(ytrue)
   r2 = 1 - sum((pred_adding[[1]] - ytrue)^2) / sum((ytrue - mean(ytrue))^2)
-  return(c(rel_sd, r2))
+  print(c(rel_sd, r2))
+  
+  selected_ind = determine_para(to_plot, threshold)
+  for(v_x in selected_ind){
+    segments(x0 = v_x, y0 = 0, x1 = v_x, y1 = 0.1, col = "seagreen")
+    points(x = v_x, y = to_plot[v_x], col = "seagreen", pch = 1, cex = 1.3)
+  }
+  
+  return(selected_ind)
 }
 
+  
 
+plot_res <- function(pred_adding, ytrue, comb_meta, title){
+  xlabel = paste(inp_nm[comb_meta[,1]],inp_nm[comb_meta[,2]],inp_nm[comb_meta[,3]], sep = " + ")
+  to_plot = apply(ytrue - pred_adding[[3]], MARGIN = 2, sd)/sd(ytrue)
   
-plot_tst <- function(tst_pred_long, y_val, tst_pred_short, tst_pred_tst, ytrue){
+  par(mar=c(20, 4, 4, 2) + 0.1)
   
-  plot(apply(tst_pred_long[[3]] - y_val, MARGIN = 2, sd)/sd(y_val), 
-       ylim = c(0, 1), xlab = "No of iteration", ylab = "Sd at each iteration", pch = 16, cex = 0.8)
+  plot(to_plot, 
+       ylim = c(0, 1), xlab = "", ylab = "Sd at each iteration", pch = 16, cex = 0.8, 
+       xaxt = "n", main = title, col = "gray")
+  points(to_plot, 
+       ylim = c(0, 1), xlab = "", ylab = "Sd at each iteration", pch = 1, cex = 1.3,col = "seagreen")
   
-  
-  points(apply(tst_pred_short[[3]] - ytrue, MARGIN = 2, sd)/sd(ytrue), col = "seagreen", pch = 17)
-  lines(apply(tst_pred_short[[3]] - ytrue, MARGIN = 2, sd)/sd(ytrue), col = "seagreen")
-  
-  
-  points(apply(tst_pred_tst[[3]] - ytrue, MARGIN = 2, sd)/sd(ytrue), col = "indianred2", pch = 17)
-  lines(apply(tst_pred_tst[[3]] - ytrue, MARGIN = 2, sd)/sd(ytrue), col = "indianred2")
+  axis(1, labels = FALSE)
+  text(x = 1:length(to_plot), y = par("usr")[3] - 0.05,
+       labels = xlabel, xpd = NA, srt = 270, cex = 0.6, adj = 0)
   
   
   abline(v = (1:(nrow(comb_meta)/5))*5 , col = "gray", lty = 2)
   abline(v = (1:(nrow(comb_meta)/10))*10 , col = "gray")
   
-  
-  rel_sd1 = sd(tst_pred_short[[1]] - ytrue)/sd(ytrue)
-  rel_sd2 = sd(tst_pred_tst[[1]] - ytrue)/sd(ytrue)
-  
-  
-  r2_1 = 1 - sum((tst_pred_short[[1]] - ytrue)^2) / sum((ytrue - mean(ytrue))^2)
-  r2_2 = 1 - sum((tst_pred_tst[[1]] - ytrue)^2) / sum((ytrue - mean(ytrue))^2)
-  
-  output = matrix(c(rel_sd1, rel_sd2, r2_1, r2_2), nrow = 2)
-  colnames(output) = c("rel_sd", "r2")
-  rownames(output) = c("short", "tst")
-  return(output)
+  rel_sd = sd(pred_adding[[1]] - ytrue)/sd(ytrue)
+  r2 = 1 - sum((pred_adding[[1]] - ytrue)^2) / sum((ytrue - mean(ytrue))^2)
+  print(c(rel_sd, r2))
 }
+
+
+
+
+
 
 
 
