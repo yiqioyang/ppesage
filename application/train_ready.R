@@ -10,12 +10,13 @@ out = out_a
 
 inp_nm = inp_nm
 out_nm = out_nm
-trn_ratio = 0.9 * 0.95
-val_ratio = 0.9 * 0.05
+trn_ratio = 0.7 * 0.95
+val_ratio = 0.7 * 0.05
 setwd(wd)
 
 ######################
 y_ind = 3
+groupthree_flat = 0
 
 no_single = 30
 no_pairs = 15
@@ -43,13 +44,15 @@ l1_info = seq_gaus_1d_a(x = inp_trn, y = out_trn[,y_ind], range = range_pre[1], 
 l2_info = seq_gaus_2d(x = inp_trn, y = l1_info[[2]], range = c(range_pre[2], range_pre[2]), nugget = nugget_pre, top_n = no_pairs)
 l2_calc = apply_emu(x = inp_trn, y = l1_info[[2]], meta_data = l2_info[[1]])
 #########################
+if(groupthree_flat == 0){
 comb_meta = rbind(l1_info[[1]], 
                 as.matrix(l2_info[[1]]))
-                  
-#l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
-#comb_meta = rbind(l1_info[[1]], 
-#                  as.matrix(l2_info[[1]]),
-#                  as.matrix(l3_info[[1]]))
+}else{
+l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
+comb_meta = rbind(l1_info[[1]], 
+                  as.matrix(l2_info[[1]]),
+                  as.matrix(l3_info[[1]]))
+}
 #########
 val_pred = apply_emu_val(inp_trn, out_trn[,y_ind], meta_data = comb_meta, xtst = inp_val)
 select_ind = plot_val(pred_adding = val_pred, ytrue = out_val[,y_ind], comb_meta, 
@@ -79,9 +82,9 @@ legend("topleft", # Position of the legend
        pch=c(16, 16)) # Point types
 ################################
 
-trained_emu = apply_trn(x = inp_trn_val, y = out_trn_val[,y_ind], comb_meta)
-pred = apply_pred(trained_emu, x_pred = inp_tst, comb_meta) ## There is some error here
+trained_emu = apply_trn(x = inp_trn_val, y = out_trn_val[,y_ind], comb_meta_update)
+pred = apply_pred(trained_emu, x_pred = inp_tst, comb_meta_update) ## There is some error here
 
 
-plot(tst_pred_tst[[1]] - pred)
+plot(tst_pred_short[[1]] - pred)
 
