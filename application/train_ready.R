@@ -2,6 +2,8 @@ rm(list = ls())
 library(ncdf4)
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
+
+#source("./loading_CAM6_PPE.R")
 source("./loading_ModelE3_PPE.R")
 #inp = inp[-c(39,140),]
 #out = out[-c(39,140),]
@@ -10,15 +12,16 @@ out = out_a
 
 inp_nm = inp_nm
 out_nm = out_nm
-trn_ratio = 0.7 * 0.95
-val_ratio = 0.7 * 0.05
+trn_ratio = 0.8 * 0.8
+val_ratio = 0.8 * 0.2
 setwd(wd)
 
 ######################
-y_ind = 3
+y_ind = 1
+print(out_nm[y_ind])
 groupthree_flat = 0
 
-no_single = 30
+no_single = 20
 no_pairs = 15
 no_groups = 10
 range_pre = c(0.6, 0.5, 0.4)
@@ -26,7 +29,14 @@ nugget_pre = 4
 
 threshold1_pre = -0.00
 threshold2_pre = 0.000
-out_name = paste("./saved_emulators/",out_nm[y_ind], "_emulators.R", sep = "")
+######################
+case_name = "example_case"
+case_var_name = out_nm[y_ind]
+case_dir = paste(case_name, case_var_name, sep = "_")
+
+dir.create(file.path("./cases", case_dir))
+setwd(file.path("./cases", case_dir))
+
 ######################
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
@@ -65,8 +75,9 @@ comb_meta_update = comb_meta[select_ind,]
 tst_pred_short = apply_emu_val(inp_trn_val, out_trn_val[,y_ind], meta_data = comb_meta_update, xtst = inp_tst)
 tst_pred_tst   = apply_emu_val(inp_trn_val, out_trn_val[,y_ind], meta_data = comb_meta, xtst = inp_tst)
 
-plot_res(pred_adding = tst_pred_tst, ytrue = out_tst[,y_ind], comb_meta = comb_meta, title = "Based on all parameters and groups")
-plot_res(pred_adding = tst_pred_short, ytrue = out_tst[,y_ind], comb_meta = comb_meta_update, title = "Based on optimized parameters and groups")
+sd_diff_all = plot_res(pred_adding = tst_pred_tst, ytrue = out_tst[,y_ind], comb_meta = comb_meta, title = "Based on all parameters and groups")
+sd_diff_update = plot_res(pred_adding = tst_pred_short, ytrue = out_tst[,y_ind], comb_meta = comb_meta_update, title = "Based on optimized parameters and groups")
+
 
 
 plot(out_tst[,y_ind], tst_pred_short[[1]], col = "navy", pch = 16, cex = 0.7,
@@ -83,9 +94,9 @@ trained_emu = apply_trn(x = inp_trn_val, y = out_trn_val[,y_ind], comb_meta_upda
 pred = apply_pred(trained_emu, x_pred = inp_tst, comb_meta_update) ## There is some error here
 
 
-plot(tst_pred_short[[1]] - pred)
-
-
-saveRDS(trained_emu, file = out_name, ascii = FALSE, version = NULL,
+#hist(pred - out_tst[,y_ind], breaks = 15)
+saveRDS(trained_emu, file = paste(case_var_name, "emus.R", sep = "_"), ascii = FALSE, version = NULL,
         compress = TRUE, refhook = NULL)
 
+write.table(sd_diff_all, file = "sd_reduce_all.csv", col.names = TRUE, row.names = FALSE, sep = ",")
+write.table(sd_diff_update, file = "sd_reduce_update.csv", col.names = TRUE, row.names = FALSE, sep = ",")

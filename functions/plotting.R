@@ -49,6 +49,11 @@ plot_res <- function(pred_adding, ytrue, comb_meta, title){
   xlabel = gsub("\\+ NA", "", xlabel)
   
   to_plot = apply(ytrue - pred_adding[[3]], MARGIN = 2, sd)/sd(ytrue)
+  
+  sd_cumulative = c(1, to_plot)
+  sd_diff = -diff(sd_cumulative)
+  
+  
   par(mar=c(20, 4, 4, 2) + 0.1)
   
   plot(to_plot, 
@@ -71,6 +76,13 @@ plot_res <- function(pred_adding, ytrue, comb_meta, title){
   r2 = 1 - sum((pred_adding[[1]] - ytrue)^2) / sum((ytrue - mean(ytrue))^2)
   par(mar = c(5.1, 4.1, 4.1, 2.1))
   print(paste("rel_sd: ", rel_sd, "R2: ", r2, sep = " "))
+  
+  output = data.frame(cbind(comb_meta,sd_diff))
+  
+  output_names = data.frame(cbind(inp1 = inp_nm[output[,1]], inp2 = inp_nm[output[,2]], inp3 = inp_nm[output[,3]]))
+  output = cbind(output_names, output)
+  
+  return(output)
 }
 
 
