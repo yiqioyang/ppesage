@@ -2,18 +2,23 @@ rm(list = ls())
 library(ncdf4)
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
-source("./loading_CAM6_PPE.R")
-inp = inp[-c(39,140),]
-out = out[-c(39,140),]
+source("./loading_ModelE3_PPE.R")
+#inp = inp[-c(39,140),]
+#out = out[-c(39,140),]
+inp = inp_a
+out = out_a
+
 inp_nm = inp_nm
 out_nm = out_nm
-trn_ratio = 0.8 * 0.8
-val_ratio = 0.8 * 0.2
+trn_ratio = 0.9 * 0.95
+val_ratio = 0.9 * 0.05
 setwd(wd)
 
 ######################
-no_single = 20
-no_pairs = 10
+y_ind = 3
+
+no_single = 30
+no_pairs = 15
 no_groups = 10
 range_pre = c(0.6, 0.5, 0.4)
 nugget_pre = 4
@@ -33,17 +38,18 @@ apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
 ########################################################################################
 # which(!is.na(out[1,])):1  3  4  5  6  7  8  9 10 11 12 15 16 17 22
 
-y_ind = 9
 ########################
 l1_info = seq_gaus_1d_a(x = inp_trn, y = out_trn[,y_ind], range = range_pre[1], nugget = nugget_pre, iteration = no_single)
 l2_info = seq_gaus_2d(x = inp_trn, y = l1_info[[2]], range = c(range_pre[2], range_pre[2]), nugget = nugget_pre, top_n = no_pairs)
 l2_calc = apply_emu(x = inp_trn, y = l1_info[[2]], meta_data = l2_info[[1]])
 #########################
-l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
-
 comb_meta = rbind(l1_info[[1]], 
-                  as.matrix(l2_info[[1]]),
-                  as.matrix(l3_info[[1]]))
+                as.matrix(l2_info[[1]]))
+                  
+#l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
+#comb_meta = rbind(l1_info[[1]], 
+#                  as.matrix(l2_info[[1]]),
+#                  as.matrix(l3_info[[1]]))
 #########
 val_pred = apply_emu_val(inp_trn, out_trn[,y_ind], meta_data = comb_meta, xtst = inp_val)
 select_ind = plot_val(pred_adding = val_pred, ytrue = out_val[,y_ind], comb_meta, 
@@ -72,4 +78,10 @@ legend("topleft", # Position of the legend
        col=c("navy", "red"), # Colors
        pch=c(16, 16)) # Point types
 ################################
+
+trained_emu = apply_trn(x = inp_trn_val, y = out_trn_val[,y_ind], comb_meta)
+pred = apply_pred(trained_emu, x_pred = inp_tst, comb_meta) ## There is some error here
+
+
+plot(tst_pred_tst[[1]] - pred)
 
