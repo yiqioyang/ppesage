@@ -72,7 +72,6 @@ apply_emu_val <- function(x, y, meta_data, xtst){
 
 
 apply_trn <- function(x, y, meta_data){
-  
   var_mat = meta_data[,1:3]
   range = meta_data[,4:6]
   nugget = meta_data[,7]

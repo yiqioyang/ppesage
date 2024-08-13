@@ -26,7 +26,7 @@ nugget_pre = 4
 
 threshold1_pre = -0.00
 threshold2_pre = 0.000
-
+out_name = paste("./saved_emulators/",out_nm[y_ind], "_emulators.R", sep = "")
 ######################
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
@@ -45,11 +45,11 @@ l2_info = seq_gaus_2d(x = inp_trn, y = l1_info[[2]], range = c(range_pre[2], ran
 l2_calc = apply_emu(x = inp_trn, y = l1_info[[2]], meta_data = l2_info[[1]])
 #########################
 if(groupthree_flat == 0){
-comb_meta = rbind(l1_info[[1]], 
+  comb_meta = rbind(l1_info[[1]], 
                 as.matrix(l2_info[[1]]))
 }else{
-l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
-comb_meta = rbind(l1_info[[1]], 
+  l3_info = seq_gaus_3d(x = inp_trn, y = l2_calc[[2]], range = c(range_pre[3], range_pre[3], range_pre[3]), nugget = nugget_pre, top_n = no_groups)
+  comb_meta = rbind(l1_info[[1]], 
                   as.matrix(l2_info[[1]]),
                   as.matrix(l3_info[[1]]))
 }
@@ -57,9 +57,6 @@ comb_meta = rbind(l1_info[[1]],
 val_pred = apply_emu_val(inp_trn, out_trn[,y_ind], meta_data = comb_meta, xtst = inp_val)
 select_ind = plot_val(pred_adding = val_pred, ytrue = out_val[,y_ind], comb_meta, 
                             title = "Validation", threshold1 = threshold1_pre, threshold2 = threshold2_pre)
-
-
-
 
 comb_meta_update = comb_meta[select_ind,]
 ####################################
@@ -87,4 +84,8 @@ pred = apply_pred(trained_emu, x_pred = inp_tst, comb_meta_update) ## There is s
 
 
 plot(tst_pred_short[[1]] - pred)
+
+
+saveRDS(trained_emu, file = out_name, ascii = FALSE, version = NULL,
+        compress = TRUE, refhook = NULL)
 
