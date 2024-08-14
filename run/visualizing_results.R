@@ -6,7 +6,7 @@ dev.copy(png, filename = "sd_reduce_all_parameters.png", width = 600, height = 5
 dev.off()
 
 sd_diff_update = plot_res(pred_adding = tst_pred_short, ytrue = out_tst[,y_ind], comb_meta = comb_meta_update, title = "Based on optimized parameters and groups")
-dev.copy(png, filename = file.path("./cases", case_dir,"sd_reduce_updated_parameters.png"), 
+dev.copy(png, filename = file.path(case_var_dir,"sd_reduce_updated_parameters.png"), 
          width = 600, height = 500)
 dev.off()
 
@@ -20,5 +20,5 @@ legend("topleft", # Position of the legend
        col=c("navy", "red"), # Colors
        pch=c(16, 16)) # Point types
 
-dev.copy(png, filename = file.path("./cases", case_dir,"emu_comp.png"), width = 400, height = 400)
+dev.copy(png, filename = file.path(case_var_dir,"emu_comp.png"), width = 400, height = 400)
 dev.off()

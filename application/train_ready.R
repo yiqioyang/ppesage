@@ -3,8 +3,9 @@ library(ncdf4)
 #################################################################################
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
-case_name = "example_case"
-y_ind = 1
+case_name = "cam6_global"
+y_ind = 6
+
 groupthree_flag = 0
 
 no_single = 20
@@ -19,19 +20,17 @@ threshold2_pre = 0.000
 trn_ratio = 0.8 * 0.8
 val_ratio = 0.8 * 0.2
 #################################################################################
-#source("./loading_CAM6_PPE.R")
-source("./loading_ModelE3_PPE.R")
-#inp = inp[-c(39,140),]
-#out = out[-c(39,140),]
-inp = inp_a
-out = out_a
+source("./loading_CAM6_PPE.R")
+#source("./loading_ModelE3_PPE.R")
+inp = inp[-c(39,140),]
+out = out[-c(39,140),]
+#inp = inp_a
+#out = out_a
 inp_nm = inp_nm
 out_nm = out_nm
 #################################################################################
 setwd(wd)
-case_var_name = out_nm[y_ind]
-case_dir = paste(case_name, case_var_name, sep = "_")
-print(case_dir)
+var_name = out_nm[y_ind]
 ######################
 source("./run/pre_processing.R")
 source("./run/create_case.R")
