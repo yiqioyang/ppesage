@@ -1,4 +1,5 @@
 rm(list = ls())
+## Experiment going back
 library(ncdf4)
 #################################################################################
 wd = "~/Documents/code_proj/simp_add_gp/"
@@ -29,7 +30,7 @@ out = out[-c(39,140),]
 inp_nm = inp_nm
 out_nm = out_nm
 #################################################################################
-setwd(wd)
+setwd(wd) 
 var_name = out_nm[y_ind]
 ######################
 source("./run/pre_processing.R")
