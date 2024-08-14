@@ -1,3 +1,9 @@
+#
+fun_names = list.files("./functions/" ,full.names = TRUE)
+## Add a line that excludes the pre_processing
+apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
+print("Finished loading the functions")
+
 n_ens = nrow(inp)
 #n_col = ncol(df)
 n_par = ncol(inp)
