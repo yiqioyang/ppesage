@@ -7,7 +7,7 @@ plot_val <- function(pred_adding, ytrue, comb_meta, title, threshold1, threshold
   xlabel = gsub("\\+ NA", "", xlabel)
     
   to_plot = apply(ytrue - pred_adding[[3]], MARGIN = 2, sd)/sd(ytrue)
-  par(mar=c(20, 4, 4, 2) + 0.1)
+  par(mar=c(10, 4, 4, 2) + 0.1)
   
   plot(to_plot, 
        ylim = c(0, 1), xlab = "", ylab = "Sd at each iteration", pch = 16, cex = 0.8, 
@@ -54,7 +54,7 @@ plot_res <- function(pred_adding, ytrue, comb_meta, title){
   sd_diff = -diff(sd_cumulative)
   
   
-  par(mar=c(20, 4, 4, 2) + 0.1)
+  par(mar=c(10, 4, 4, 2) + 0.1)
   
   plot(to_plot, 
        ylim = c(0, 1), xlab = "", ylab = "Sd at each iteration", pch = 16, cex = 0.8, 
