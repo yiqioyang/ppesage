@@ -13,6 +13,12 @@ Method input:
   
 Method output:
   1. Three figures evaluating the emulator performance
-       a. emu_comp.png: emulated results vs ground truths. Two sets of points are generated, which are based on the complete and optimized parameter sequences (see more below)'
-       b.
-       c. 
+       a. emu_comp.png:                       emulated results vs ground truths. Two sets of points are generated, which are based on the complete and optimized parameter sequences (see more below).
+       b. emu_selec_para.png:                 how the explained variability (see more below) decreases with more terms added to the emulator prediction, during training.
+       c. sd_reduce_updated_parameters.png:   how the explained variability (see more below) decreases with more terms added to the emulator prediction, during validation.
+  2. Two csv files monitoring the explained variability during validation
+       a. sd_reduce_all.csv:                  the explained variability for each parameter and parameter group using the complete parameter sequence, during validation.
+       b. sd_reduce_update.csv:               the explained variability for each parameter and parameter group using the optimzed parameter sequence, during validation.
+  3. The trained emulator saved as an .R file:
+       emus.R
+
