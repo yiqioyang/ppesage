@@ -17,21 +17,28 @@ Method input:
    The two climate model PPEs adopted in this work can be found in ./data 
   
 Method output:
+
   1. Three figures evaluating the emulator performance
      
        a. emu_comp.png:                       emulated results vs ground truths. Two sets of points are generated, which are based on the complete and optimized parameter sequences (see more below).
      
+     ![emu_comp](https://github.com/user-attachments/assets/41a83b4d-2dc8-4087-8591-a17eb2606c30)
+     
        b. emu_selec_para.png:                 how the explained variability (see more below) decreases with more terms added to the emulator prediction, during training.
-     
+
+  ![emu_selec_para](https://github.com/user-attachments/assets/9dc83e4c-fac7-4211-8ae7-37f656f1da77)
+
        c. sd_reduce_updated_parameters.png:   how the explained variability (see more below) decreases with more terms added to the emulator prediction, during validation.
+
+![sd_reduce_updated_parameters](https://github.com/user-attachments/assets/4e72bbae-fbdb-494c-82a7-6fff972bcb28)
      
-  2. Two csv files monitoring the explained variability during validation
+  3. Two csv files monitoring the explained variability during validation
 
        a. sd_reduce_all.csv:                  the explained variability for each parameter and parameter group using the complete parameter sequence, during validation.
 
        b. sd_reduce_update.csv:               the explained variability for each parameter and parameter group using the optimzed parameter sequence, during validation.
      
-  3. The trained emulator saved as an .R file:
+  4. The trained emulator saved as an .R file:
      
        emus.R
 
