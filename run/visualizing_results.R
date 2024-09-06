@@ -1,10 +1,12 @@
 tst_pred_optimized = apply_emu_val(inp_trn_val, out_trn_val[,y_ind], meta_data = comb_meta_update, xtst = inp_tst)
 tst_pred_all   = apply_emu_val(inp_trn_val, out_trn_val[,y_ind], meta_data = comb_meta, xtst = inp_tst)
 
+print("Normalized RMSE and R2 during validation, based on the complete parameter sequences")
 sd_diff_all = plot_res(pred_adding = tst_pred_all, ytrue = out_tst[,y_ind], comb_meta = comb_meta, title = "Based on all parameters and groups")
 dev.copy(png, filename = "sd_reduce_all_parameters.png", width = 600, height = 500)
 dev.off()
 
+print("Normalized RMSE and R2 during validation, based on the optimized parameter sequences")
 sd_diff_optimized = plot_res(pred_adding = tst_pred_optimized, ytrue = out_tst[,y_ind], comb_meta = comb_meta_update, title = "Based on optimized parameters and groups")
 dev.copy(png, filename = file.path(case_var_dir,"sd_reduce_updated_parameters.png"), 
          width = 600, height = 500)

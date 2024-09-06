@@ -1,5 +1,6 @@
 
 val_pred = apply_emu_val(inp_trn, out_trn[,y_ind], meta_data = comb_meta, xtst = inp_val)
+print("Normalized RMSE and R2 during training")
 select_ind = plot_val(pred_adding = val_pred, ytrue = out_val[,y_ind], comb_meta, 
                       title = "Selecting parameters", threshold1 = threshold1_pre, threshold2 = threshold2_pre)
 

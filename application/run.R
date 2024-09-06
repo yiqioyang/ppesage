@@ -29,18 +29,19 @@ out_nm = colnames(out)
 ### Create a case name, for example, ModelE3_PPE
 case_name = "PPE_test"
 # The index of variables to be estimated
-y_ind = 3
+y_ind = 6
 
 
 ### Specifications to run the model     
 ### See the readme file for what they mean
-groupthree_flag = 0
+groupthree_flag = 0 # If zero, skipping selecting parameter groups of three, if not, selects parameter groups of three
 
 no_single = 40
 no_pairs = 20
 no_groups = 15
 range_pre = c(0.6, 0.5, 0.4)
 nugget_pre = 4
+
 
 threshold1_pre = 0.00
 threshold2_pre = 0.000
