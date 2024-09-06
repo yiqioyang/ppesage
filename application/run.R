@@ -3,7 +3,7 @@
 ### These packages are not all used in this method, but can be convenient for subsequent analysis, visualizations
 #install.packages(c("ncdf4", "ggplot2", "raster", "rgdal", "ggcorrplot", "tidyverse",
 #                   "RColorBrewer", "gridExtra", "rgl", "RobustGaSP", "ClusterR", "cluster",
-#                   "gridExtra", "scatterplot3d", "plot3D", "parallel", "lhs))
+#                   "gridExtra", "scatterplot3d", "plot3D", "parallel", "lhs"))
 
 #################################################################################
 ### Define the input and output (loading the data)
@@ -19,7 +19,7 @@ setwd(wd)
 inp_raw = read.table("./data/modele3_ppe_input.csv", sep = ",", header=TRUE)
 out_raw = read.table("./data/modele3_ppe_output.csv", sep = ",", header=TRUE)
 
-### 
+### The two lines below are just to keep the inp_raw, and out_raw unchanged throught for references.
 inp = inp_raw
 out = out_raw
 inp_nm = colnames(inp)
@@ -88,15 +88,19 @@ source("./run/saving_results.R")
 #################################################################################
 ### Making predictions
 ### generate some data 
-
+### The code below just generate samples, and make predictions using the trained emulator
+### for the particular variable of interest, i.e., the "y_ind"th output variable
+### We are working on the code that generates the parameters, and estimates all target variables
+### 
 
 n_generated = 10000
 inp_generated = data.frame(randomLHS(n_generated, n_par))
 colnames(inp_generated) = inp_nm
 out_generated = apply_pred(trained_emu, inp_generated, comb_meta_update)
-  
 out_generated_original_scale = out_generated * sd(out_raw[,y_ind]) + mean(out_raw[,y_ind])
 
+
+plot3d(inp_generated[,34], inp_generated[,31], out_generated_original_scale)
 
 
 
