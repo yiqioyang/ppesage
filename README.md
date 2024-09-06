@@ -35,3 +35,4 @@ Method output:
      
        emus.R
 
+To run the method, go to application/run.R and read the notations therein. 
