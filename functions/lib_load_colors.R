@@ -14,7 +14,6 @@ library(cluster)
 library(gridExtra)
 library(scatterplot3d)
 library(plot3D)
-library(mgcv)
 library(parallel)
 
 

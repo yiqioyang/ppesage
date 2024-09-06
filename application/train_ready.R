@@ -1,17 +1,40 @@
-################################################################################
+### Libraries that need to be installed
+### Please un-comment the three lines below, or use your own way to install these packages
+### These packages are not all used in this method, but can be convenient for subsequent analysis, visualizations
+#install.packages(c("ncdf4", "ggplot2", "raster", "rgdal", "ggcorrplot", "tidyverse",
+#                   "RColorBrewer", "gridExtra", "rgl", "RobustGaSP", "ClusterR", "cluster",
+#                   "gridExtra", "scatterplot3d", "plot3D", "parallel", "lhs))
+
+#################################################################################
+### Define the input and output (loading the data)
+### inp: n by m matrix with n ensemble members and m parameters
+### out: n by p matrix with n ensemble members and p target variables
+### inp_nm: names of the parameters
+### out_nm: names of the target variables
+
 ### Define and set working directory
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
 
+inp_raw = read.table("./data/modele3_ppe_input.csv", sep = ",", header=TRUE)
+out_raw = read.table("./data/modele3_ppe_output.csv", sep = ",", header=TRUE)
+
+### 
+inp = inp_raw
+out = out_raw
+inp_nm = colnames(inp)
+out_nm = colnames(out)
+################################################################################
+
 ### Create a case name, for example, ModelE3_PPE
-case_name = "random_test"
+case_name = "PPE_test"
 # The index of variables to be estimated
 y_ind = 3
 
 
 ### Specifications to run the model     
 ### See the readme file for what they mean
-groupthree_flag = 1
+groupthree_flag = 0
 
 no_single = 40
 no_pairs = 20
@@ -24,25 +47,7 @@ threshold2_pre = 0.000
 
 trn_ratio = 0.8 * 0.8
 val_ratio = 0.8 * 0.2
-#################################################################################
-### Define the input and output (loading the data)
-### inp: n by m matrix with n ensemble members and m parameters
-### out: n by p matrix with n ensemble members and p target variables
-### inp_nm: names of the parameters
-### out_nm: names of the target variables
 
-inp = read.table("./where/inp/is/stored", sep = ",", header=TRUE)
-out = read.table("./where/out/is/stored", sep = ",", header=TRUE)
-inp_nm = inp_nm
-out_nm = out_nm
-
-source("./loading_ModelE3_PPE.R")
-#inp = inp[-c(39,140),]
-#out = out[-c(39,140),]
-inp = rbind(inp_a,inp_b)[1:751,]
-out = rbind(out_a,out_b)[1:751,]
-inp_nm = inp_nm
-out_nm = out_nm
 #################################################################################
 ### Reset the working directory in case previous data loading changes it;
 ### Identify the target variable to be estimated
@@ -81,6 +86,17 @@ source("./run/visualizing_results.R")
 ###    (trn+val) to the tst data using both the complete and optimized parameter sequences
 source("./run/saving_results.R")
 #################################################################################
+### Making predictions
+### generate some data 
+
+
+n_generated = 10000
+inp_generated = data.frame(randomLHS(n_generated, n_par))
+colnames(inp_generated) = inp_nm
+out_generated = apply_pred(trained_emu, inp_generated, comb_meta_update)
+  
+out_generated_original_scale = out_generated * sd(out_raw[,y_ind]) + mean(out_raw[,y_ind])
+
 
 
 
