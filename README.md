@@ -5,20 +5,33 @@ Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidha
 
 Method input: 
   Climate model PPE data:
+  
    1. The parameters used to generate the PPE.
-      It should be a n_ensemble x n_parameters dataframe/matrix saved as csv file. Each row corresponds to the parameters for one ensemble member run. 
+      
+      It should be a n_ensemble x n_parameters dataframe/matrix saved as csv file. Each row corresponds to the parameters for one ensemble member run.
+      
    2. The target climatologies.
+      
       It should be a n_ensemble x n_climatologies dataframe/matrix saved as csv file. Each row corresponds to a series of climatologies of interest for one ensemble member run. 
+   
    The two climate model PPEs adopted in this work can be found in ./data 
   
 Method output:
   1. Three figures evaluating the emulator performance
+     
        a. emu_comp.png:                       emulated results vs ground truths. Two sets of points are generated, which are based on the complete and optimized parameter sequences (see more below).
+     
        b. emu_selec_para.png:                 how the explained variability (see more below) decreases with more terms added to the emulator prediction, during training.
+     
        c. sd_reduce_updated_parameters.png:   how the explained variability (see more below) decreases with more terms added to the emulator prediction, during validation.
+     
   2. Two csv files monitoring the explained variability during validation
+
        a. sd_reduce_all.csv:                  the explained variability for each parameter and parameter group using the complete parameter sequence, during validation.
+
        b. sd_reduce_update.csv:               the explained variability for each parameter and parameter group using the optimzed parameter sequence, during validation.
+     
   3. The trained emulator saved as an .R file:
+     
        emus.R
 
