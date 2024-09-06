@@ -1,6 +1,5 @@
-#
+library(ncdf4)
 fun_names = list.files("./functions/" ,full.names = TRUE)
-## Add a line that excludes the pre_processing
 apply(X = matrix(fun_names, ncol = 1), MARGIN = 1, FUN = source)
 print("Finished loading the functions")
 
