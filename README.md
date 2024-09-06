@@ -26,11 +26,12 @@ Method output:
      
        b. emu_selec_para.png:                 how the explained variability (see more below) decreases with more terms added to the emulator prediction, during training.
 
-  ![emu_selec_para](https://github.com/user-attachments/assets/9dc83e4c-fac7-4211-8ae7-37f656f1da77)
-
+     
+      ![emu_selec_para](https://github.com/user-attachments/assets/9dc83e4c-fac7-4211-8ae7-37f656f1da77)
+     
        c. sd_reduce_updated_parameters.png:   how the explained variability (see more below) decreases with more terms added to the emulator prediction, during validation.
 
-![sd_reduce_updated_parameters](https://github.com/user-attachments/assets/4e72bbae-fbdb-494c-82a7-6fff972bcb28)
+  ![sd_reduce_updated_parameters](https://github.com/user-attachments/assets/4e72bbae-fbdb-494c-82a7-6fff972bcb28)
      
   3. Two csv files monitoring the explained variability during validation
 
