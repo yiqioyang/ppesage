@@ -3,6 +3,8 @@ The codes are the method reported in the manuscript titled "A simple emulator th
 
 Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidhammer, and Linnia Hawkins
 
+To run the method, go to application/run.R and read the notations therein. This code implements codes in run/ 
+
 Method input: 
   Climate model PPE data:
   
@@ -43,4 +45,4 @@ Method output:
      
        emus.R
 
-To run the method, go to application/run.R and read the notations therein. 
+
