@@ -1,10 +1,11 @@
+### Lines marked with ** means that more details can be found in the manuscript to be submitted
+
 ### Libraries that need to be installed
 ### Please un-comment the three lines below, or use your own way to install these packages
-### These packages are not all used in this method, but can be convenient for subsequent analysis, visualizations
 #install.packages(c("ncdf4", "ggplot2", "raster", "rgdal", "ggcorrplot", "tidyverse",
 #                   "RColorBrewer", "gridExtra", "rgl", "RobustGaSP", "ClusterR", "cluster",
 #                   "gridExtra", "scatterplot3d", "plot3D", "parallel", "lhs"))
-
+### The above packages are not all used in this method, but can be convenient for subsequent analysis, visualizations.
 #################################################################################
 ### Define the input and output (loading the data)
 ### inp: n by m matrix with n ensemble members and m parameters
@@ -19,7 +20,7 @@ setwd(wd)
 inp_raw = read.table("./data/modele3_ppe_input.csv", sep = ",", header=TRUE)
 out_raw = read.table("./data/modele3_ppe_output.csv", sep = ",", header=TRUE)
 
-### The two lines below are just to keep the inp_raw, and out_raw unchanged throught for references.
+### The two lines below are just to keep the inp_raw, and out_raw unchanged throughout for references.
 inp = inp_raw
 out = out_raw
 inp_nm = colnames(inp)
@@ -34,20 +35,36 @@ y_ind = 6
 
 ### Specifications to run the model     
 ### See the readme file for what they mean
-groupthree_flag = 0 # If zero, skipping selecting parameter groups of three, if not, selects parameter groups of three
+groupthree_flag = 0               # If zero, skipping selecting parameter groups of three, if not, selects parameter groups of three
+no_single = round(n_par*0.8)      # Initial guess on the number of single parameters  ** 
+no_pairs = round(n_par*1/3)       # Initial guess on the number of parameter pairs  ** 
+no_groups = round(n_par*1/4)      # Initial guess on the number of parameter groups of three  ** 
 
-no_single = 40
-no_pairs = 20
-no_groups = 15
-range_pre = c(0.6, 0.5, 0.4)
-nugget_pre = 4
+range_pre = c(0.6, 0.5, 0.4)      # Specified fixed GP hyperparameters  ** 
+nugget_pre = 4                    # Specified fixed GP hyperparameters  ** 
 
 
-threshold1_pre = 0.00
-threshold2_pre = 0.000
+threshold1_pre = 0.00             # Not necessary to change         **
+threshold2_pre = 0.000            # Not necessary to change         **
 
-trn_ratio = 0.8 * 0.8
-val_ratio = 0.8 * 0.2
+### What the two thresholds are?
+## threshold1_pre: in emu_selec_para.png, if adding more single parameters leads to 
+##                 increase in normalized RMSE, then they are not selected.
+## threshold2_pre: is the same as threshold1_pre, but for parameter pairs and groups of three
+
+## If their values are 0.01, then if the RMSE increases by some value below 0.01 as a result of having
+## some parameters and parameter groups included in the prediction, then these parameters and parameter groups
+## will not be excluded in the optimized parameter sequences. 
+
+
+### 
+trn_ratio = 0.8 * 0.8     ## The ratio of training data to obtain the original parameter sequence **
+val_ratio = 0.8 * 0.2     ## The ratio of training data to optimize the original parameter sequence **
+####                      ## The rest data will be used for validation.
+####                      ## When doing validation, data from (trn_ratio + val_ratio) will be used for training
+####                      ## The output of the method, namely the emulator as an R file, is trained based on 
+####                      ## the complete dataset. 
+
 
 #################################################################################
 ### Reset the working directory in case previous data loading changes it;
