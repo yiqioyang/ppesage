@@ -31,7 +31,7 @@ out_nm = colnames(out)
 case_name = "PPE_test"
 # The index of variables to be estimated
 y_ind = 6
-
+n_par = ncol(inp)
 
 ### Specifications to run the model     
 ### See the readme file for what they mean
