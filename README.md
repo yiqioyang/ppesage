@@ -1,4 +1,4 @@
-This is the code for an additive emulator for climate model PPEs. It is simplified from additive Gaussian Processes, and coded in R. 
+This is the code for an additive emulator for climate model PPEs. It is simplified from additive Gaussian Processes, and coded in R. We nickname it as sage for Simplified Additive Gaussian processes Emulator. 
 The codes are the method reported in the manuscript titled "A simple emulator that enables interpretation of parameter-output relationships in climate model PPEs and insights from applying it to two climate model PPEs", to be submitted to JAMES.
 
 Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidhammer, and Linnia Hawkins
