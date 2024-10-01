@@ -6,7 +6,7 @@ case_dir = case_name
 dir.create(file.path("./cases", case_dir))
 print("Case created")
 case_var_dir = file.path("./cases", case_dir, var_name)
-dir.create(case_var_dir)
+dir.create(case_var_dir, recursive = TRUE)
 print("Variable file created")
 
   
