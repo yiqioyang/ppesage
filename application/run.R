@@ -13,7 +13,7 @@
 ### inp_nm: names of the parameters
 ### out_nm: names of the target variables
 
-### Define and set working directory
+### Define and set working directory (i.e., where this repo is stored)
 wd = "~/Documents/code_proj/simp_add_gp/"
 setwd(wd)
 
