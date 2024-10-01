@@ -3,7 +3,10 @@ The codes are the method reported in the manuscript titled "A simple emulator th
 
 Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidhammer, and Linnia Hawkins
 
-To run the method, go to application/run.R and read the notations therein. This code implements codes in run/ 
+To run the method, go to application/run.R and read the notations therein. 
+run.R includes the complete processes to run the method, including loading packages and functions, data loading, training, validaiton, saving results and etc.
+run.R implements these processes through running the codes in run/
+
 Note: The current version of the codes does not implement uncertainty quantification, but this will be part of code expansion
 
 
