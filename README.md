@@ -7,7 +7,7 @@ To run the method, go to application/run.R and read the notations therein. This 
 Note: The current version of the codes does not implement uncertainty quantification, but this will be part of code expansion
 
 
-Method input: 
+Method input (what is required for training sage): 
   Climate model PPE data:
   
    1. The parameters used to generate the PPE.
@@ -20,7 +20,7 @@ Method input:
    
    The two climate model PPEs adopted in this work can be found in ./data 
   
-Method output:
+Method output (stored in the created directory: /cases/casename, casename defined by user):
 
   1. Three figures evaluating the emulator performance
      
