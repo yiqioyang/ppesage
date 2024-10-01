@@ -5,10 +5,13 @@ Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidha
 
 To run the method, go to application/run.R and read the notations therein. 
 run.R includes the complete processes to run the method, including loading packages and functions, data loading, training, validaiton, saving results and etc.
-run.R implements these processes through running the codes in run/
+run.R implements these processes through running the separate codes in run/
 
-Note: The current version of the codes does not implement uncertainty quantification, but this will be part of code expansion
 
+Note: 
+1. The current version of the codes does not implement uncertainty quantification, but this will be part of code expansion
+2. sage works with one variable at a time.
+3. All parameters are uniformed to the range of 0-1, and the target variable is normalized to be zero-mean with a standard deviation of one. In the last segment of the code "run.R", the variable "out_generated_original_scale" converts the generated data back to the original scale. 
 
 Method input (what is required for training sage): 
   Climate model PPE data:
