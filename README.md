@@ -43,13 +43,13 @@ Method output (stored in the created directory: /cases/casename, casename define
 
   ![sd_reduce_updated_parameters](https://github.com/user-attachments/assets/4e72bbae-fbdb-494c-82a7-6fff972bcb28)
      
-  3. Two csv files monitoring the explained variability during validation
+  2. Two csv files monitoring the explained variability during validation
 
        a. sd_reduce_all.csv:                  the explained variability for each parameter and parameter group using the complete parameter sequence, during validation.
 
        b. sd_reduce_update.csv:               the explained variability for each parameter and parameter group using the optimzed parameter sequence, during validation.
      
-  4. The trained emulator saved as an .R file:
+  3. The trained emulator saved as an .R file:
      
        emus.R
 
