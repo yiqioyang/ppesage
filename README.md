@@ -11,7 +11,7 @@ run.R implements these processes through running the separate codes in run/
 Note: 
 1. The current version of the codes does not implement uncertainty quantification, but this will be part of code expansion
 2. sage works with one variable at a time.
-3. All parameters are uniformed to the range of 0-1, and the target variable is normalized to be zero-mean with a standard deviation of one. In the last segment of the code "run.R", the variable "out_generated_original_scale" converts the generated data back to the original scale. 
+3. During the training and testing, all parameters are uniformed to the range of 0-1, and the target variable is normalized to be zero-mean with a standard deviation of one. In the last segment of the code "run.R", the variable "out_generated_original_scale" converts the generated data back to the original scale. 
 
 Method input (what is required for training sage): 
   Climate model PPE data:
