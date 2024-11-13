@@ -6,6 +6,8 @@ Authors: Qingyuan Yang, Gregory S Elsaesser, Marcus Van Lier-Walqui, Trude Eidha
 To run the method, go to application/run.R and read the notations therein. 
 run.R includes the complete processes to run the method, including loading packages and functions, data loading, training, validaiton, saving results and etc.
 run.R implements these processes through running the separate codes in run/
+ 
+In run/, a new code LHS_generator.R is added as an example to generate the LHS samples. It reads data from data/para_def.csv which has three columns, i.e. parameter name, min, and max. This code outputs the sampled parameters to data/lhs_parameters.csv
 
 
 Note: 
