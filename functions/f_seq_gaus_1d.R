@@ -33,6 +33,9 @@ seq_gaus_1d_a <- function(x = x, y = y,  range, nugget, iteration, var_nm = coln
     temp_pred_obj = rgasp(design = x[,temp_ind], response = pre_y, nugget = nugget, range.par = range)
     pre_y = pre_y - predict(temp_pred_obj, cbind(x[,temp_ind]))$mean 
   }
+
+  #sel_ind = unique(sel_ind)
+  
   output = cbind(sel_ind, rep(NA, length(sel_ind)), rep(NA, length(sel_ind)), 
                  rep(range, length(sel_ind)), rep(NA, length(sel_ind)), rep(NA, length(sel_ind)),
                  rep(nugget, length(sel_ind)))
